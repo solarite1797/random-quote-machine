@@ -4,6 +4,7 @@ import Layout from '../src/Layout'
 import { useRouter } from 'next/router'
 import { getAllQuotes } from '../lib/quotes'
 import Head from 'next/head'
+import Link from 'next/link'
 
 const useStyles = makeStyles({
     root: {
@@ -11,6 +12,9 @@ const useStyles = makeStyles({
         flexGrow: 1
     }
 })
+
+const addQuoteLink =
+    'https://github.com/lukadev-0/random-quote-machine/blob/master/README.md#add-your-own-quote'
 
 export default function Index({ quotes }) {
     const classes = useStyles()
@@ -45,9 +49,14 @@ export default function Index({ quotes }) {
                 <Grid item xs></Grid>
                 <Grid item container spacing={2} justify="center">
                     <Grid item>
-                        <Button variant="outlined" color="primary">
-                            Add Quote
-                        </Button>
+                        <Link
+                            href={addQuoteLink}
+                            passHref
+                        >
+                            <Button variant="outlined" color="primary">
+                                Add Quote
+                            </Button>
+                        </Link>
                     </Grid>
                     <Grid item>
                         <Button onClick={handleClick} variant="contained" color="primary">
