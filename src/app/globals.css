@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply flex items-center font-medium rounded-xl px-3 py-2 transition-colors text-sm;
+  }
+
+  .btn-primary {
+    @apply bg-sky-600 hover:bg-sky-700 text-white disabled:!bg-gray-500;
+  }
+
+  .btn-gray {
+    @apply text-gray-800 dark:text-gray-200 bg-gray-500/20 hover:bg-gray-500/40;
+  }
+}
