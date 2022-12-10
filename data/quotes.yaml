@@ -41,3 +41,6 @@
 
 - name: John Lennon
   quote: "Life is what happens when you're busy making other plans."
+
+- name: Linus Torvalds
+  quote: "Talk is cheap. Show me the code."
