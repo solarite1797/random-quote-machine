@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm run generate-quotes && next dev",
-    "generate-quotes": "ts-node --transpile-only --compilerOptions \"{\\\"module\\\": \\\"CommonJS\\\"}\" scripts/generate-quotes.ts",
+    "generate-quotes": "ts-node-esm --transpile-only  scripts/generate-quotes.ts",
     "build": "pnpm run generate-quotes && next build",
     "start": "next start",
     "lint": "next lint",
@@ -28,9 +28,11 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
     "@types/line-column": "^1.0.0",
+    "@types/ms": "^0.7.31",
     "autoprefixer": "^10.4.13",
-    "fs-extra": "^11.1.0",
+    "chalk": "^5.2.0",
     "line-column": "^1.0.2",
+    "ms": "^2.1.3",
     "postcss": "^8.4.21",
     "prettier": "^2.8.3",
     "tailwindcss": "^3.2.4",

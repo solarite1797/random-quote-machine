@@ -1,99 +1,195 @@
-import { readFileSync } from "fs";
-import { resolve } from "path";
-import { parseDocument, YAMLMap, YAMLSeq } from "yaml";
+import { join, resolve } from "path";
+import { Document, parseDocument, YAMLMap, YAMLSeq } from "yaml";
 import slugify from "slugify";
-import { createHash } from "crypto";
-import { writeFile } from "fs/promises";
-import { ensureDirSync } from "fs-extra";
+import { BinaryLike, BinaryToTextEncoding, createHash } from "crypto";
+import { mkdir, readFile, rm, writeFile } from "fs/promises";
 import { z } from "zod";
 import lineColumn from "line-column";
 import { fromZodError } from "zod-validation-error";
+import chalk from "chalk";
+import ms from "ms";
 
-const QUOTES_YAML_GITHUB_URL =
+const QUOTES_FILE_GITHUB_URL =
   "https://github.com/lukadev-0/random-quote-machine/blob/main/data/quotes.yaml";
+const DATA_DIR = resolve("./data");
+const TMP_DATA_DIR = join(DATA_DIR, "tmp");
+const QUOTES_FILE = join(DATA_DIR, "quotes.yaml");
+const TRUNCATE_REGEX = /^(.{40}[^\s]*).*/;
 
-const schema = z.object({
+const quoteSchema = z.object({
   name: z.string(),
   quote: z.string(),
 });
 
-const dataPath = resolve("./data");
-const quotesYamlPath = resolve(dataPath, "quotes.yaml");
+type Quote = z.infer<typeof quoteSchema>;
+type LineColumnFinder = ReturnType<typeof lineColumn>;
 
-console.log(`Reading quotes from ${quotesYamlPath}`);
-const quotesYamlFile = readFileSync(quotesYamlPath).toString();
-const quotesYaml = parseDocument(quotesYamlFile);
+async function generateQuotes() {
+  const startTime = Date.now();
 
-const lineColumnFinder = lineColumn(quotesYamlFile);
+  await rm(TMP_DATA_DIR, { recursive: true });
+  await mkdir(TMP_DATA_DIR, { recursive: true });
 
-ensureDirSync(resolve(dataPath, "tmp"));
+  const { lineColumnFinder, yamlDocument } = await readQuotes();
+  const result = parseQuotes(lineColumnFinder, yamlDocument);
 
-const yamlContents = quotesYaml.contents;
-if (!(yamlContents instanceof YAMLSeq))
-  throw new SyntaxError("Invalid quotes.yaml: root is not a YAMLSeq");
+  if (!result.success) {
+    console.error(chalk.gray("Validation for quotes.yaml failed with error:"));
+    console.error(`  ${result.error}\n`);
+    console.error(chalk.red("Failed to generate quotes: Error in quotes.yaml"));
 
-const nodeLineColumn = (node: { range?: [number, number, number] }) => {
-  if (!node.range) return "?:?";
-  const lineColumn = lineColumnFinder.fromIndex(node.range[0]);
-  if (!lineColumn) return "?:?";
-  return `${lineColumn.line}:${lineColumn.col}`;
-};
+    process.exit(1);
+  }
 
-const promises = yamlContents.items.map(async (map) => {
-  if (!(map instanceof YAMLMap))
-    throw new SyntaxError(
-      `Invalid quotes.yaml at ${nodeLineColumn(map)}: not a YAMLMap`
-    );
+  for (const quote of result.quotes) {
+    const slug = getQuoteSlug(quote);
+    const fileName = `${slug}.json`;
+    const filePath = join(TMP_DATA_DIR, fileName);
 
-  const parseResult = schema.safeParse({
-    name: map.get("name"),
-    quote: map.get("quote"),
-  });
+    const json = JSON.stringify({
+      source: result.quoteSourceURLs.get(quote) ?? QUOTES_FILE_GITHUB_URL,
+      slug,
+      ...quote,
+    });
 
-  if (!parseResult.success)
-    throw new SyntaxError(
-      `Invalid quotes.yaml at ${nodeLineColumn(map)}: ${
-        fromZodError(parseResult.error).message
-      }`
-    );
+    await writeFile(filePath, json);
+    console.log(`${chalk.gray("Wrote")} ${fileName}`);
+  }
 
-  const { data: quote } = parseResult;
+  const timeElapsed = Date.now() - startTime;
 
-  const hash = createHash("md5");
-  hash.update(`${quote.name}-${quote.quote}`);
-  const digest = hash.digest("hex").slice(0, 8);
+  console.log("");
+  console.log(`Successfully wrote ${chalk.green(result.quotes.length)} quotes`);
+  console.log(`Done in ${ms(timeElapsed)}`);
+}
 
+async function readQuotes(): Promise<{
+  lineColumnFinder: LineColumnFinder;
+  yamlDocument: Document;
+}> {
+  const quotesYamlFile = (await readFile(QUOTES_FILE)).toString();
+  const lineColumnFinder = lineColumn(quotesYamlFile);
+  const yamlDocument = parseDocument(quotesYamlFile);
+
+  return { lineColumnFinder, yamlDocument };
+}
+
+function parseQuotes(
+  lineColumnFinder: LineColumnFinder,
+  yamlDocument: Document
+):
+  | { success: true; quotes: Quote[]; quoteSourceURLs: Map<Quote, string> }
+  | { success: false; error: string } {
+  if (!(yamlDocument.contents instanceof YAMLSeq)) {
+    return {
+      success: false,
+      error: `Root should be a YAMLSeq, found ${getType(
+        yamlDocument.contents
+      )}`,
+    };
+  }
+
+  let quotes: Quote[] = [];
+  const quoteSourceURLs = new Map<Quote, string>();
+
+  for (const item of yamlDocument.contents.items) {
+    if (!(item instanceof YAMLMap)) {
+      return {
+        success: false,
+        error: `${getLineColumnStringFromNode(
+          lineColumnFinder,
+          item
+        )}: Expected YAMLMap, found ${getType(item)}`,
+      };
+    }
+
+    const result = quoteSchema.safeParse({
+      name: item.get("name"),
+      quote: item.get("quote"),
+    });
+
+    if (!result.success)
+      return {
+        success: false,
+        error: fromZodError(result.error, {
+          issueSeparator: "\n    ",
+          prefixSeparator: "\n    ",
+          prefix: `Validation error at ${getLineColumnStringFromNode(
+            lineColumnFinder,
+            item
+          )}`,
+        }).toString(),
+      };
+    quotes.push(result.data);
+
+    const itemLine =
+      item.range && lineColumnFinder.fromIndex(item.range[0])?.line;
+    const sourceURL = `${QUOTES_FILE_GITHUB_URL}${
+      itemLine ? `#L${itemLine}` : ""
+    }`;
+    quoteSourceURLs.set(result.data, sourceURL);
+  }
+
+  return {
+    success: true,
+    quotes,
+    quoteSourceURLs,
+  };
+}
+
+function getQuoteSlug(quote: Quote) {
+  const hash = hashMd5(JSON.stringify(quote), "hex", 8);
   const slug = slugify(quote.quote, {
     trim: false,
     replacement: " ",
     remove: /[^\w ]/g,
     lower: true,
   })
-    .slice(0, 120)
+    .replace(TRUNCATE_REGEX, "$1")
     .trim()
     .replace(/ /g, "-");
 
-  const fullSlug = `${digest}-${slug}`;
-  const filePath = `tmp/${fullSlug}.json`;
+  return `${slug}-${hash}`;
+}
 
-  const line = map.range && lineColumnFinder.fromIndex(map.range[0])?.line;
-  const source = `${QUOTES_YAML_GITHUB_URL}${line ? `#L${line}` : ""}`;
+function getLineColumnStringFromNode(
+  lineColumnFinder: LineColumnFinder,
+  node: unknown
+) {
+  const isObject = node && typeof node === "object";
+  const hasRange = isObject && "range" in node;
+  if (!hasRange || !Array.isArray(node.range)) return "data/quotes.yaml";
 
-  const json = JSON.stringify({
-    source,
-    slug: fullSlug,
-    name: quote.name,
-    quote: quote.quote,
-  });
+  const lineColumn = lineColumnFinder.fromIndex(node.range[0]);
+  if (!lineColumn) return "data/quotes.yaml";
 
-  console.log(`Writing ${filePath}`);
-  await writeFile(resolve(dataPath, filePath), json);
+  return `data/quotes.yaml:${lineColumn.line}:${lineColumn.col}`;
+}
+
+function getType(value: unknown) {
+  const typeString = typeof value;
+  if (!value || typeString !== "object") {
+    return typeString;
+  }
+
+  const prototype = Object.getPrototypeOf(value);
+  if (prototype === Object) return typeString;
+  return prototype.name;
+}
+
+function hashMd5(
+  data: BinaryLike,
+  encoding: BinaryToTextEncoding = "hex",
+  length: number = -1
+) {
+  const hash = createHash("md5");
+  hash.update(data);
+  return hash.digest(encoding).slice(0, length);
+}
+
+generateQuotes().catch((err) => {
+  console.error(err);
+  console.error(chalk.red("\nFailed to generate quotes"));
 });
-
-Promise.all(promises)
-  .then(() => console.log("Successfuly generated quotes"))
-  .catch((err) => {
-    console.error(`Failed to generate qoutes: ${err}`);
-  });
 
 export {};

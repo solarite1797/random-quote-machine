@@ -1,36 +1,39 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import getQuote, { Quote } from "../util/getQuote";
+import { useCallback, useEffect, useRef, useState } from "react";
+import getQuote, { Quote } from "../../../util/getQuote";
 
-export default function QuoteButtons({ quote }: { quote: Quote }) {
+export interface Props {
+  quote: Quote;
+}
+
+export default function QuoteButtons({ quote }: Props) {
   const router = useRouter();
   const [isBusy, setIsBusy] = useState(false);
   const randomQuoteRef = useRef<Promise<Quote>>();
 
-  const fetchRandomQuote = () => {
+  const fetchRandomQuote = useCallback(() => {
     if (!randomQuoteRef.current) {
       const promise = getQuote("random", `?exclude=${quote.slug}`);
-      promise.then((quote) => {
-        console.log(quote);
-        router.prefetch(`/quotes/${quote.slug}`);
-      });
-
       randomQuoteRef.current = promise;
       return promise;
     }
-    console.log("random already fetched");
-    return randomQuoteRef.current;
-  };
 
-  const handleRandomQuote = () => {
+    return randomQuoteRef.current;
+  }, [quote.slug]);
+
+  const handleRandomQuoteClicked = () => {
     setIsBusy(true);
     fetchRandomQuote().then((quote) => {
       console.log(quote);
       router.push(`/quotes/${quote.slug}`);
     });
   };
+
+  useEffect(() => {
+    fetchRandomQuote();
+  }, [fetchRandomQuote]);
 
   return (
     <div className="flex items-center border-t border-gray-200 dark:border-gray-700 py-3 px-4">
@@ -64,8 +67,7 @@ export default function QuoteButtons({ quote }: { quote: Quote }) {
 
       <button
         className="ml-auto btn btn-primary"
-        onClick={handleRandomQuote}
-        onPointerEnter={fetchRandomQuote}
+        onClick={handleRandomQuoteClicked}
         disabled={isBusy}
       >
         <svg

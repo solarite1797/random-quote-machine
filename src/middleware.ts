@@ -8,7 +8,6 @@ export async function middleware(request: NextRequest) {
   const res = NextResponse.redirect(
     new URL(`/quotes/${quote.slug}`, request.url)
   );
-  res.headers.set("Cache-Control", "no-store");
 
   return res;
 }
