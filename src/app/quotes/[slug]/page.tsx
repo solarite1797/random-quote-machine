@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import getQuote from "../../../util/getQuote";
+import serverGetQuote from "../../../util/serverGetQuote";
 import Quote from "./Quote";
 
 interface Params {
@@ -9,7 +9,7 @@ interface Params {
 export default async function QuotePage({ params }: { params: Params }) {
   const { slug } = params;
 
-  const quote = await getQuote(slug);
+  const quote = await serverGetQuote(slug);
   if (!quote) notFound();
 
   return (
