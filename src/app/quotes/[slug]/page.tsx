@@ -1,14 +1,14 @@
-import QuoteButtons from '../../../components/QuoteButtons'
-import getQuote from '../../../util/getQuote'
+import QuoteButtons from "../../../components/QuoteButtons";
+import getQuote from "../../../util/getQuote";
 
 interface Params {
-  slug: string
+  slug: string;
 }
 
 export default async function QuotePage({ params }: { params: Params }) {
-  const { slug } = params
+  const { slug } = params;
 
-  const quote = await getQuote(slug)
+  const quote = await getQuote(slug);
 
   return (
     <main className="pt-16 flex items-center justify-center px-4 min-h-screen">
@@ -25,5 +25,5 @@ export default async function QuotePage({ params }: { params: Params }) {
         <QuoteButtons quote={quote} />
       </div>
     </main>
-  )
+  );
 }

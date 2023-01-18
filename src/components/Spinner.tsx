@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 
 export default function Spinner({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<'svg'>) {
+}: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg
       viewBox="0 0 38 38"
-      className={`animate-spin${className ? ` ${className}` : ''}`}
+      className={`animate-spin${className ? ` ${className}` : ""}`}
       {...props}
     >
       <defs>
@@ -32,5 +32,5 @@ export default function Spinner({
         <circle fill="currentColor" cx={36} cy={18} r={1} />
       </g>
     </svg>
-  )
+  );
 }

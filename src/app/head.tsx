@@ -3,5 +3,5 @@ export default function Head() {
     <>
       <title>Random Quote Machine</title>
     </>
-  )
+  );
 }

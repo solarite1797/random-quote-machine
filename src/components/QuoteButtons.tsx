@@ -1,36 +1,36 @@
-'use client'
+"use client";
 
-import { useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
-import getQuote, { Quote } from '../util/getQuote'
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import getQuote, { Quote } from "../util/getQuote";
 
 export default function QuoteButtons({ quote }: { quote: Quote }) {
-  const router = useRouter()
-  const [isBusy, setIsBusy] = useState(false)
-  const randomQuoteRef = useRef<Promise<Quote>>()
+  const router = useRouter();
+  const [isBusy, setIsBusy] = useState(false);
+  const randomQuoteRef = useRef<Promise<Quote>>();
 
   const fetchRandomQuote = () => {
     if (!randomQuoteRef.current) {
-      const promise = getQuote('random', `?exclude=${quote.slug}`)
-      promise.then(quote => {
-        console.log(quote)
-        router.prefetch(`/quotes/${quote.slug}`)
-      })
+      const promise = getQuote("random", `?exclude=${quote.slug}`);
+      promise.then((quote) => {
+        console.log(quote);
+        router.prefetch(`/quotes/${quote.slug}`);
+      });
 
-      randomQuoteRef.current = promise
-      return promise
+      randomQuoteRef.current = promise;
+      return promise;
     }
-    console.log('random already fetched')
-    return randomQuoteRef.current
-  }
+    console.log("random already fetched");
+    return randomQuoteRef.current;
+  };
 
   const handleRandomQuote = () => {
-    setIsBusy(true)
-    fetchRandomQuote().then(quote => {
-      console.log(quote)
-      router.push(`/quotes/${quote.slug}`)
-    })
-  }
+    setIsBusy(true);
+    fetchRandomQuote().then((quote) => {
+      console.log(quote);
+      router.push(`/quotes/${quote.slug}`);
+    });
+  };
 
   return (
     <div className="flex items-center border-t border-gray-200 dark:border-gray-700 py-3 px-4">
@@ -83,5 +83,5 @@ export default function QuoteButtons({ quote }: { quote: Quote }) {
         <span className="sr-only sm:not-sr-only !ml-2">Random Quote</span>
       </button>
     </div>
-  )
+  );
 }

@@ -1,18 +1,18 @@
-import Link from 'next/link'
-import Logo from '../components/Logo'
-import './globals.css'
+import Link from "next/link";
+import Logo from "../components/Logo";
+import "./globals.css";
 
-import { Inter } from '@next/font/google'
+import { Inter } from "@next/font/google";
 
 const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-})
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" className={inter.variable}>
@@ -37,5 +37,5 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  )
+  );
 }

@@ -1,27 +1,27 @@
-import getQuote from '../../../util/getQuote'
+import getQuote from "../../../util/getQuote";
 
 interface Params {
-  slug: string
+  slug: string;
 }
 
 const truncate = (str: string, length: number) => {
   if (str.length > length) {
-    return `${str.slice(0, length - 1)}…`
+    return `${str.slice(0, length - 1)}…`;
   }
-  return str
-}
+  return str;
+};
 
 const getBaseUrl = () => {
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
-  return `http://localhost:${process.env.PORT ?? 3000}`
-}
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return `http://localhost:${process.env.PORT ?? 3000}`;
+};
 
 export default async function Head({ params }: { params: Params }) {
-  const { slug } = params
-  const quote = await getQuote(slug)
+  const { slug } = params;
+  const quote = await getQuote(slug);
 
-  const title = truncate(quote.name, 40)
-  const description = `“${truncate(quote.quote, 240)}”`
+  const title = truncate(quote.name, 40);
+  const description = `“${truncate(quote.quote, 240)}”`;
 
   return (
     <>
@@ -42,5 +42,5 @@ export default async function Head({ params }: { params: Params }) {
       <meta name="og:url" content={`${getBaseUrl()}/quotes/${quote.slug}`} />
       <meta name="og:description" content={description} />
     </>
-  )
+  );
 }

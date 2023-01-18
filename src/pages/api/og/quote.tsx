@@ -1,24 +1,24 @@
-import { ImageResponse } from '@vercel/og'
-import { NextRequest } from 'next/server'
-import getQuote from '../../../util/getQuote'
+import { ImageResponse } from "@vercel/og";
+import { NextRequest } from "next/server";
+import getQuote from "../../../util/getQuote";
 
 export const config = {
-  runtime: 'experimental-edge',
-}
+  runtime: "experimental-edge",
+};
 
 const fontRegular = fetch(
-  new URL('../../../../fonts/Inter-Regular.ttf', import.meta.url)
-).then(res => res.arrayBuffer())
+  new URL("../../../../fonts/Inter-Regular.ttf", import.meta.url)
+).then((res) => res.arrayBuffer());
 
 const fontMedium = fetch(
-  new URL('../../../../fonts/Inter-Medium.ttf', import.meta.url)
-).then(res => res.arrayBuffer())
+  new URL("../../../../fonts/Inter-Medium.ttf", import.meta.url)
+).then((res) => res.arrayBuffer());
 
 export default async function OG(req: NextRequest) {
-  const slug = req.nextUrl.searchParams.get('slug')
-  if (!slug) return new Response('No slug', { status: 400 })
+  const slug = req.nextUrl.searchParams.get("slug");
+  if (!slug) return new Response("No slug", { status: 400 });
 
-  const quote = await getQuote(slug)
+  const quote = await getQuote(slug);
 
   return new ImageResponse(
     (
@@ -54,17 +54,17 @@ export default async function OG(req: NextRequest) {
       height: 600,
       fonts: [
         {
-          name: 'Inter',
+          name: "Inter",
           data: await fontRegular,
-          style: 'normal',
+          style: "normal",
         },
         {
-          name: 'Inter',
+          name: "Inter",
           data: await fontMedium,
-          style: 'normal',
+          style: "normal",
           weight: 500,
         },
       ],
     }
-  )
+  );
 }
