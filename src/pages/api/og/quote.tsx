@@ -19,6 +19,7 @@ export default async function OG(req: NextRequest) {
   if (!slug) return new Response("No slug", { status: 400 });
 
   const quote = await getQuote(slug);
+  if (!quote) return new Response("Not found", { status: 404 });
 
   return new ImageResponse(
     (

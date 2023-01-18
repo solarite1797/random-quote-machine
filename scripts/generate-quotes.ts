@@ -27,7 +27,7 @@ type LineColumnFinder = ReturnType<typeof lineColumn>;
 async function generateQuotes() {
   const startTime = Date.now();
 
-  await rm(TMP_DATA_DIR, { recursive: true });
+  await rm(TMP_DATA_DIR, { recursive: true, force: true });
   await mkdir(TMP_DATA_DIR, { recursive: true });
 
   const { lineColumnFinder, yamlDocument } = await readQuotes();
@@ -190,6 +190,8 @@ function hashMd5(
 generateQuotes().catch((err) => {
   console.error(err);
   console.error(chalk.red("\nFailed to generate quotes"));
+
+  process.exit(1);
 });
 
 export {};
