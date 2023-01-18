@@ -1,34 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Random Quote Machine
 
-## Getting Started
+A website built with the Next.js 13 app directory. It has quotes!
 
-First, run the development server:
+## Adding your own quote
 
-```bash
-npm run dev
-# or
-yarn dev
+You can add your own quote by editing the [`quotes.yaml`](https://github.com/lukadev-0/random-quote-machine/blob/main/data/quotes.yaml)
+file.
+
+At the end of the file, add your quote with the following format:
+
+```yaml
+- name: John Doe
+  quote: "Hello, World!"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then submit a pull request and a reviewer will review and merge, your quote will then be available
+in a minute!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Using the API
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The API can be accessed from `https://lukadev-randomquotes.vercel.app/api`.
+The API allows you to get a specific quote, get a random quote, or get a
+quote image.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Get a quote
 
-## Learn More
+**GET** `/api/quotes/[slug].[ext]`
 
-To learn more about Next.js, take a look at the following resources:
+`[slug]` is the slug of the quote, such as `talk-is-cheap-show-me-the-code-8a97f957`, the slug
+is the quote slugififed with a hash appended onto it.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`[ext]` can either be `.json`, `.yaml` or `.yml`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#### Response
 
-## Deploy on Vercel
+```ts
+interface Response {
+  // The URL which points to the location within `quotes.yaml` where this
+  // quote is defined.
+  source: string;
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  // This quote's slug
+  slug: string;
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  // The name on the quote
+  name: string;
+
+  // The quote itself
+  quote: string;
+}
+```
+
+**Example:** https://lukadev-randomquotes.vercel.app/api/quotes/talk-is-cheap-show-me-the-code-8a97f957.json
+
+### Get a random quote
+
+Same as above, but with the slug `random`.
+
+**Example:** https://lukadev-randomquotes.vercel.app/api/quotes/random.json
+
+### OG Image
+
+**GET** `/api/og/quote?slug=[slug]`
+
+`[slug]` is the slug of the quote, this can also be `random`.
+
+**Example:** https://lukadev-randomquotes.vercel.app/api/og/quote?slug=random
