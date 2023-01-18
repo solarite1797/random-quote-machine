@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 import getQuote from "../../../util/getQuote";
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "edge",
 };
 
 const fontRegular = fetch(

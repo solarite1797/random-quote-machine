@@ -1,5 +1,4 @@
-import { notFound } from "next/navigation";
-import getQuote from "../../../util/getQuote";
+import serverGetQuote from "../../../util/serverGetQuote";
 
 interface Params {
   slug: string;
@@ -19,7 +18,7 @@ const getBaseUrl = () => {
 
 export default async function Head({ params }: { params: Params }) {
   const { slug } = params;
-  const quote = await getQuote(slug);
+  const quote = await serverGetQuote(slug);
   if (!quote) return null;
 
   const title = truncate(quote.name, 40);
