@@ -15,7 +15,7 @@ export default function QuoteButtons({ quote }: Props) {
 
   const fetchRandomQuote = useCallback(() => {
     if (!randomQuoteRef.current) {
-      const promise = getQuote("random", `?exclude=${quote.slug}`);
+      const promise = getQuote("random", quote.slug);
       randomQuoteRef.current = promise;
       return promise;
     }
@@ -26,7 +26,6 @@ export default function QuoteButtons({ quote }: Props) {
   const handleRandomQuoteClicked = () => {
     setIsBusy(true);
     fetchRandomQuote().then((quote) => {
-      console.log(quote);
       router.push(`/quotes/${quote.slug}`);
     });
   };
