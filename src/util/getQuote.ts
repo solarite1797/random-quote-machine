@@ -27,11 +27,6 @@ export default async function getQuote(
   slug: string,
   exclude?: string
 ): Promise<Quote | undefined> {
-  if (typeof window === "undefined" && typeof EdgeRuntime !== "string") {
-    const { default: serverGetQuote } = await import("./serverGetQuote");
-    return serverGetQuote(slug, exclude);
-  }
-
   const queryString = exclude ? `?exclude=${encodeURIComponent(exclude)}` : "";
 
   const res = await fetch(
