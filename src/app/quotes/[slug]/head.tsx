@@ -30,6 +30,7 @@ export default async function Head({ params }: { params: Params }) {
         {`“${truncate(quote.quote, 40)}” - ${truncate(quote.name, 40)}`}
       </title>
 
+      <meta name="description" content={description} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
