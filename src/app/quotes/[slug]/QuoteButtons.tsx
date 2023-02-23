@@ -35,7 +35,7 @@ export default function QuoteButtons({ quote }: Props) {
   }, [fetchRandomQuote]);
 
   return (
-    <div className="flex items-center border-t border-gray-200 dark:border-gray-700 py-3 px-4">
+    <div className="flex items-center border-t border-gray-200 dark:border-gray-700 py-3 px-3">
       <button className="btn btn-gray">
         <svg
           xmlns="http://www.w3.org/2000/svg"
