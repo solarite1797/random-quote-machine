@@ -38,6 +38,6 @@
     "tailwindcss": "^3.2.4",
     "ts-node": "^10.9.1",
     "zod": "^3.20.2",
-    "zod-validation-error": "^0.3.0"
+    "zod-validation-error": "^1.0.0"
   }
 }
