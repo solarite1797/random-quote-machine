@@ -26,7 +26,7 @@ specifiers:
   typescript: 4.9.5
   yaml: ^2.2.1
   zod: ^3.20.2
-  zod-validation-error: ^0.3.0
+  zod-validation-error: ^1.0.0
 
 dependencies:
   '@next/font': 13.1.2
@@ -56,7 +56,7 @@ devDependencies:
   tailwindcss: 3.2.4_aesdjsunmf4wiehhujt67my7tu
   ts-node: 10.9.1_alpjt73dvgv6kni625hu7f2l4m
   zod: 3.20.2
-  zod-validation-error: 0.3.0_zod@3.20.2
+  zod-validation-error: 1.0.1_zod@3.20.2
 
 packages:
 
@@ -2758,8 +2758,8 @@ packages:
     resolution: {integrity: sha512-X//8P6RHzkO4E1ba/wXwKOybeArNDQJI2vwzFLJxz5bfT9K8fB798ZVYvq+Z+hjRA0Wy2iUlOUch4n2+ddqbDQ==}
     dev: false
 
-  /zod-validation-error/0.3.0_zod@3.20.2:
-    resolution: {integrity: sha512-M0g8+1fgEgz6do82lA90v1IA4WXOK7TxAHqohAPktNJbTacl7tI74JS38AUWJPIJgDjUkhtEuLkUUFl3uhneyA==}
+  /zod-validation-error/1.0.1_zod@3.20.2:
+    resolution: {integrity: sha512-QRk2AtHLJg8sCZAbEjXSs7E0n4/mSdX5caoh6eOUvDSdcIQz03i0xoNN1Qx6UZT+ADVHRK6+ZXRtldzW6nnltA==}
     engines: {node: ^14.17 || >=16.0.0}
     peerDependencies:
       zod: ^3.18.0
