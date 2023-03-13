@@ -5,7 +5,7 @@ specifiers:
   '@types/fs-extra': ^11.0.1
   '@types/line-column': ^1.0.0
   '@types/ms': ^0.7.31
-  '@types/node': 18.14.6
+  '@types/node': 18.15.1
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
   '@vercel/og': ^0.4.0
@@ -30,7 +30,7 @@ specifiers:
 
 dependencies:
   '@next/font': 13.1.2
-  '@types/node': 18.14.6
+  '@types/node': 18.15.1
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
   '@vercel/og': 0.4.0
@@ -54,7 +54,7 @@ devDependencies:
   postcss: 8.4.21
   prettier: 2.8.3
   tailwindcss: 3.2.4_aesdjsunmf4wiehhujt67my7tu
-  ts-node: 10.9.1_alpjt73dvgv6kni625hu7f2l4m
+  ts-node: 10.9.1_r2vohjtqb453xa4ljp4dw3sqb4
   zod: 3.20.2
   zod-validation-error: 1.0.1_zod@3.20.2
 
@@ -337,7 +337,7 @@ packages:
     resolution: {integrity: sha512-MxObHvNl4A69ofaTRU8DFqvgzzv8s9yRtaPPm5gud9HDNvpB3GPQFvNuTWAI59B9huVGV5jXYJwbCsmBsOGYWA==}
     dependencies:
       '@types/jsonfile': 6.1.1
-      '@types/node': 18.14.6
+      '@types/node': 18.15.1
     dev: true
 
   /@types/json5/0.0.29:
@@ -347,7 +347,7 @@ packages:
   /@types/jsonfile/6.1.1:
     resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
     dependencies:
-      '@types/node': 18.14.6
+      '@types/node': 18.15.1
     dev: true
 
   /@types/line-column/1.0.0:
@@ -358,8 +358,8 @@ packages:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
     dev: true
 
-  /@types/node/18.14.6:
-    resolution: {integrity: sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==}
+  /@types/node/18.15.1:
+    resolution: {integrity: sha512-U2TWca8AeHSmbpi314QBESRk7oPjSZjDsR+c+H4ECC1l+kFgpZf8Ydhv3SJpPy51VyZHHqxlb6mTTqYNNRVAIw==}
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -2151,7 +2151,7 @@ packages:
     dependencies:
       lilconfig: 2.0.6
       postcss: 8.4.21
-      ts-node: 10.9.1_alpjt73dvgv6kni625hu7f2l4m
+      ts-node: 10.9.1_r2vohjtqb453xa4ljp4dw3sqb4
       yaml: 1.10.2
     dev: true
 
@@ -2549,7 +2549,7 @@ packages:
     dependencies:
       is-number: 7.0.0
 
-  /ts-node/10.9.1_alpjt73dvgv6kni625hu7f2l4m:
+  /ts-node/10.9.1_r2vohjtqb453xa4ljp4dw3sqb4:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -2568,7 +2568,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 18.14.6
+      '@types/node': 18.15.1
       acorn: 8.8.1
       acorn-walk: 8.2.0
       arg: 4.1.3
