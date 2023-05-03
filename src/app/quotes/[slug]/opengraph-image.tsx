@@ -1,8 +1,5 @@
 import { ImageResponse } from "next/server";
-import getQuote from "~/lib/getQuote";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
+import serverGetQuote from "~/lib/serverGetQuote";
 
 export const size = {
   width: 1200,
@@ -27,7 +24,7 @@ export const contentType = "image/png";
 export default async function og({ params }: { params: { slug: string } }) {
   const { slug } = params;
 
-  const quote = await getQuote(slug);
+  const quote = await serverGetQuote(slug);
   if (!quote) return new Response("Not found", { status: 404 });
 
   return new ImageResponse(
