@@ -10,19 +10,19 @@ export const size = {
 };
 export const contentType = "image/png";
 
-const fontRegular = fs.promises.readFile(
-  path.join(
-    fileURLToPath(import.meta.url),
-    "../../../../../fonts/Inter-Regular.ttf"
-  )
-);
+// const fontRegular = fs.promises.readFile(
+// path.join(
+// fileURLToPath(import.meta.url),
+//    "../../../../../fonts/Inter-Regular.ttf"
+//   )
+// );
 
-const fontMedium = fs.promises.readFile(
-  path.join(
-    fileURLToPath(import.meta.url),
-    "../../../../../fonts/Inter-Medium.ttf"
-  )
-);
+// const fontMedium = fs.promises.readFile(
+//  path.join(
+//    fileURLToPath(import.meta.url),
+//    "../../../../../fonts/Inter-Medium.ttf"
+//  )
+// );
 
 export default async function og({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -34,7 +34,7 @@ export default async function og({ params }: { params: { slug: string } }) {
     (
       <div
         tw="w-full h-full bg-zinc-900 text-white flex flex-col p-16"
-        style={{ fontFamily: "'Inter'" }}
+        style={{ fontFamily: "sans-serif" }}
       >
         <div tw="flex items-center text-3xl text-zinc-300 font-medium">
           <svg
@@ -61,19 +61,19 @@ export default async function og({ params }: { params: { slug: string } }) {
     ),
     {
       ...size,
-      fonts: [
-        {
-          name: "Inter",
-          data: await fontRegular,
-          style: "normal",
-        },
-        {
-          name: "Inter",
-          data: await fontMedium,
-          style: "normal",
-          weight: 500,
-        },
-      ],
+      // fonts: [
+      // {
+      //  name: "Inter",
+      //  data: await fontRegular,
+      //  style: "normal",
+      // },
+      // {
+      //  name: "Inter",
+      //  data: await fontMedium,
+      //  style: "normal",
+      // weight: 500,
+      // },
+      // ],
     }
   );
 }
