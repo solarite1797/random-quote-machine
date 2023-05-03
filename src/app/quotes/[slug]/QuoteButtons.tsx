@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import getQuote, { Quote } from "../../../util/getQuote";
+import getQuote, { Quote } from "~/lib/getQuote";
 
 export interface Props {
   quote: Quote;
