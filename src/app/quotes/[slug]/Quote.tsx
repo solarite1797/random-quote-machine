@@ -1,4 +1,4 @@
-import { type Quote } from "../../../util/getQuote";
+import { type Quote } from "~/lib/getQuote";
 import QuoteButtons from "./QuoteButtons";
 
 export interface Props {
