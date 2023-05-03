@@ -1,16 +1,11 @@
 import { ImageResponse } from "next/server";
 import getQuote from "~/lib/getQuote";
 import { readFile } from "fs/promises";
-import { fileURLToPath } from "url";
-import { join } from "path";
+import { resolve } from "path";
 
-const fontRegular = readFile(
-  join(fileURLToPath(import.meta.url), "../../../../../fonts/Inter-Regular.ttf")
-);
+const fontRegular = readFile(resolve("./fonts/Inter-Regular.ttf"));
 
-const fontMedium = readFile(
-  join(fileURLToPath(import.meta.url), "../../../../../fonts/Inter-Medium.ttf")
-);
+const fontMedium = readFile(resolve("./fonts/Inter-Medium.ttf"));
 
 export const size = {
   width: 1200,
