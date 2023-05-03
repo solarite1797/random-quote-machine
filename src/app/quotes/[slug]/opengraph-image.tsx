@@ -30,7 +30,7 @@ export default async function og({ params }: { params: { slug: string } }) {
   return new ImageResponse(
     (
       <div
-        tw="w-full h-full bg-zinc-900 text-white flex flex-col p-16"
+        tw="w-full h-full bg-zinc-900 text-white flex flex-col py-16 px-32"
         style={{ fontFamily: "sans-serif" }}
       >
         <div tw="flex items-center text-3xl text-zinc-300 font-medium">
