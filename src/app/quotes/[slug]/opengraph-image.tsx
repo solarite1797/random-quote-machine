@@ -1,11 +1,15 @@
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "@vercel/og";
 import getQuote from "~/lib/getQuote";
-import { readFile } from "fs/promises";
-import { resolve } from "path";
 
-const fontRegular = readFile(resolve("./fonts/Inter-Regular.ttf"));
+export const runtime = "edge";
 
-const fontMedium = readFile(resolve("./fonts/Inter-Medium.ttf"));
+const fontRegular = fetch(
+  new URL("../../../../fonts/Inter-Regular.ttf", import.meta.url)
+).then((res) => res.arrayBuffer());
+
+const fontMedium = fetch(
+  new URL("../../../../fonts/Inter-Medium.ttf", import.meta.url)
+).then((res) => res.arrayBuffer());
 
 export const size = {
   width: 1200,
