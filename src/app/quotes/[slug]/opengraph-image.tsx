@@ -1,10 +1,7 @@
 import { ImageResponse } from "@vercel/og";
-import { NextRequest } from "next/server";
-import getQuote from "../../../util/getQuote";
+import getQuote from "~/lib/getQuote";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
 
 const fontRegular = fetch(
   new URL("../../../../fonts/Inter-Regular.ttf", import.meta.url)
@@ -14,9 +11,14 @@ const fontMedium = fetch(
   new URL("../../../../fonts/Inter-Medium.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
-export default async function OG(req: NextRequest) {
-  const slug = req.nextUrl.searchParams.get("slug");
-  if (!slug) return new Response("No slug", { status: 400 });
+export const size = {
+  width: 1200,
+  height: 630,
+};
+export const contentType = "image/png";
+
+export default async function og({ params }: { params: { slug: string } }) {
+  const { slug } = params;
 
   const quote = await getQuote(slug);
   if (!quote) return new Response("Not found", { status: 404 });
@@ -24,7 +26,7 @@ export default async function OG(req: NextRequest) {
   return new ImageResponse(
     (
       <div
-        tw="w-full h-full bg-zinc-900 text-white flex flex-col items-center text-center p-16"
+        tw="w-full h-full bg-zinc-900 text-white flex flex-col p-16"
         style={{ fontFamily: "'Inter'" }}
       >
         <div tw="flex items-center text-3xl text-zinc-300 font-medium">
@@ -42,7 +44,7 @@ export default async function OG(req: NextRequest) {
           <span tw="ml-4">Random Quote Machine</span>
         </div>
 
-        <div tw="flex flex-col items-center my-auto">
+        <div tw="flex flex-col my-auto">
           <div tw="flex text-5xl max-w-4xl text-zinc-200 mb-3">
             &ldquo;{quote.quote}&rdquo;
           </div>
@@ -51,8 +53,7 @@ export default async function OG(req: NextRequest) {
       </div>
     ),
     {
-      width: 1200,
-      height: 600,
+      ...size,
       fonts: [
         {
           name: "Inter",

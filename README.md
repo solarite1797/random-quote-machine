@@ -61,8 +61,10 @@ Same as above, but with the slug `random`.
 
 ### OG Image
 
-**GET** `/api/og/quote?slug=[slug]`
+> **Note**
+> This used to be available through `/api/og/quote` but has been moved in order to use
+> Next.js's new file metadata API.
 
-`[slug]` is the slug of the quote, this can also be `random`.
+**GET** `/quotes/[slug]/opengraph-image`
 
-**Example:** https://lukadev-randomquotes.vercel.app/api/og/quote?slug=random
+**Example:** https://lukadev-randomquotes.vercel.app/quotes/if-debugging-is-the-process-of-removing-software-08b16211/opengraph-image
