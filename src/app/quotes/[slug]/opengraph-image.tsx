@@ -11,10 +11,10 @@ export const size = {
 export const contentType = "image/png";
 
 const fontRegular = readFile(
-  join(fileURLToPath(import.meta.url), "../../../../../fonts/Inter-Regular.ttf")
+  join(fileURLToPath(import.meta.url), "../fonts/Inter-Regular.ttf")
 );
 const fontMedium = readFile(
-  join(fileURLToPath(import.meta.url), "../../../../../fonts/Inter-Medium.ttf")
+  join(fileURLToPath(import.meta.url), "../fonts/Inter-Medium.ttf")
 );
 
 export default async function og({ params }: { params: { slug: string } }) {
