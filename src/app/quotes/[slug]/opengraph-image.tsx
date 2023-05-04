@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/server";
 import serverGetQuote from "~/lib/serverGetQuote";
-import { readFile } from "fs/promises";
-import { join } from "path";
+import fs from "fs";
+import path from "path";
 import { fileURLToPath } from "url";
 
 export const size = {
@@ -10,11 +10,11 @@ export const size = {
 };
 export const contentType = "image/png";
 
-const fontRegular = readFile(
-  join(fileURLToPath(import.meta.url), "../fonts/Inter-Regular.ttf")
+const fontRegular = fs.promises.readFile(
+  path.join(fileURLToPath(import.meta.url), "../fonts/Inter-Regular.ttf")
 );
-const fontMedium = readFile(
-  join(fileURLToPath(import.meta.url), "../fonts/Inter-Medium.ttf")
+const fontMedium = fs.promises.readFile(
+  path.join(fileURLToPath(import.meta.url), "../fonts/Inter-Medium.ttf")
 );
 
 export default async function og({ params }: { params: { slug: string } }) {
