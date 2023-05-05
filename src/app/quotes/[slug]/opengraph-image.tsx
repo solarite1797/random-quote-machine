@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/server";
 import serverGetQuote from "~/lib/serverGetQuote";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+// import fs from "fs";
+// import path from "path";
+// import { fileURLToPath } from "url";
 
 export const size = {
   width: 1200,
@@ -10,12 +10,12 @@ export const size = {
 };
 export const contentType = "image/png";
 
-const fontRegular = fs.promises.readFile(
-  path.join(fileURLToPath(import.meta.url), "../../../Inter-Regular.ttf")
-);
-const fontMedium = fs.promises.readFile(
-  path.join(fileURLToPath(import.meta.url), "../../../Inter-Medium.ttf")
-);
+// const fontRegular = fs.promises.readFile(
+//   path.join(fileURLToPath(import.meta.url), "../../../Inter-Regular.ttf")
+// );
+// const fontMedium = fs.promises.readFile(
+//   path.join(fileURLToPath(import.meta.url), "../../../Inter-Medium.ttf")
+// );
 
 export default async function og({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -54,19 +54,19 @@ export default async function og({ params }: { params: { slug: string } }) {
     ),
     {
       ...size,
-      fonts: [
-        {
-          name: "Inter",
-          data: await fontRegular,
-          style: "normal",
-        },
-        {
-          name: "Inter",
-          data: await fontMedium,
-          style: "normal",
-          weight: 500,
-        },
-      ],
+      // fonts: [
+      //   {
+      //     name: "Inter",
+      //     data: await fontRegular,
+      //     style: "normal",
+      //   },
+      //   {
+      //     name: "Inter",
+      //     data: await fontMedium,
+      //     style: "normal",
+      //     weight: 500,
+      //   },
+      // ],
     }
   );
 }
