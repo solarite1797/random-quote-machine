@@ -14,8 +14,8 @@ At the end of the file, add your quote with the following format:
   quote: "Hello, World!"
 ```
 
-Then submit a pull request and a reviewer will review and merge, your quote will then be available
-in a minute!
+Afterwards, submit a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests),
+wait for your request to be reviewed and to be merged. Your quote will then be available within a minute!
 
 ## Using the API
 
