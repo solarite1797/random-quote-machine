@@ -14,7 +14,7 @@ At the end of the file, add your quote with the following format:
   quote: "Hello, World!"
 ```
 
-Then submit a pull request and a reviewer will review and merge, your quote will then be available
+Then submit a pull request and a reviewer will review and merge your request; your quote will then be available
 in a minute!
 
 ## Using the API
