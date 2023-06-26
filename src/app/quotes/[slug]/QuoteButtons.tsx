@@ -1,18 +1,18 @@
-"use client";
+"use client"
 
-import { Dialog } from "@headlessui/react";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
-import getQuote, { Quote } from "~/lib/getQuote";
-import { ClipboardIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {Dialog} from "@headlessui/react"
+import {useRouter} from "next/navigation"
+import {useCallback, useEffect, useRef, useState} from "react"
+import getQuote, {Quote} from "~/lib/getQuote"
+import {ClipboardIcon, XMarkIcon} from "@heroicons/react/24/outline"
 import {
   ShareIcon,
   CodeBracketIcon,
   ArrowPathIcon,
-} from "@heroicons/react/20/solid";
+} from "@heroicons/react/20/solid"
 
 export interface Props {
-  quote: Quote;
+  quote: Quote
 }
 
 function ShareModal({
@@ -20,11 +20,11 @@ function ShareModal({
   onClose,
   quoteSlug,
 }: {
-  open: boolean;
-  onClose: () => void;
-  quoteSlug: string;
+  open: boolean
+  onClose: () => void
+  quoteSlug: string
 }) {
-  const url = `https://givequote.vercel.app/quotes/${quoteSlug}`;
+  const url = `https://quote.lukadev.me/quotes/${quoteSlug}`
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -63,36 +63,36 @@ function ShareModal({
         </Dialog.Panel>
       </div>
     </Dialog>
-  );
+  )
 }
 
-export default function QuoteButtons({ quote }: Props) {
-  const router = useRouter();
-  const [isBusy, setIsBusy] = useState(false);
-  const randomQuoteRef = useRef<Promise<Quote>>();
+export default function QuoteButtons({quote}: Props) {
+  const router = useRouter()
+  const [isBusy, setIsBusy] = useState(false)
+  const randomQuoteRef = useRef<Promise<Quote>>()
 
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
 
   const fetchRandomQuote = useCallback(() => {
     if (!randomQuoteRef.current) {
-      const promise = getQuote("random", quote.slug);
-      randomQuoteRef.current = promise;
-      return promise;
+      const promise = getQuote("random", quote.slug)
+      randomQuoteRef.current = promise
+      return promise
     }
 
-    return randomQuoteRef.current;
-  }, [quote.slug]);
+    return randomQuoteRef.current
+  }, [quote.slug])
 
   const handleRandomQuoteClicked = () => {
-    setIsBusy(true);
+    setIsBusy(true)
     fetchRandomQuote().then((quote) => {
-      router.push(`/quotes/${quote.slug}`);
-    });
-  };
+      router.push(`/quotes/${quote.slug}`)
+    })
+  }
 
   useEffect(() => {
-    fetchRandomQuote();
-  }, [fetchRandomQuote]);
+    fetchRandomQuote()
+  }, [fetchRandomQuote])
 
   return (
     <div className="flex items-center border-t border-gray-200 dark:border-gray-700 py-3 px-3">
@@ -124,5 +124,5 @@ export default function QuoteButtons({ quote }: Props) {
         <span className="sr-only sm:not-sr-only !ml-2">Random Quote</span>
       </button>
     </div>
-  );
+  )
 }
