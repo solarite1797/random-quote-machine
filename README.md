@@ -19,7 +19,7 @@ and wait for your request to be reviewed. Once it is merged, your quote will be 
 
 ## Using the API
 
-The API can be accessed from `https://lukadev-randomquotes.vercel.app/api`.
+The API can be accessed from `https://quote.lukadev.me/api`.
 The API allows you to get a specific quote, get a random quote, or get a
 quote image.
 
@@ -38,26 +38,26 @@ is the quote slugififed with a hash appended onto it.
 interface Response {
   // The URL which points to the location within `quotes.yaml` where this
   // quote is defined.
-  source: string;
+  source: string
 
   // This quote's slug
-  slug: string;
+  slug: string
 
   // The name on the quote
-  name: string;
+  name: string
 
   // The quote itself
-  quote: string;
+  quote: string
 }
 ```
 
-**Example:** https://lukadev-randomquotes.vercel.app/api/quotes/talk-is-cheap-show-me-the-code-8a97f957.json
+**Example:** https://quote.lukadev.me/api/quotes/talk-is-cheap-show-me-the-code-8a97f957.json
 
 ### Get a random quote
 
 Same as above, but with the slug `random`.
 
-**Example:** https://lukadev-randomquotes.vercel.app/api/quotes/random.json
+**Example:** https://quote.lukadev.me/api/quotes/random.json
 
 ### OG Image
 
@@ -67,4 +67,4 @@ Same as above, but with the slug `random`.
 
 **GET** `/quotes/[slug]/opengraph-image`
 
-**Example:** https://lukadev-randomquotes.vercel.app/quotes/if-debugging-is-the-process-of-removing-software-08b16211/opengraph-image
+**Example:** https://quote.lukadev.me/quotes/if-debugging-is-the-process-of-removing-software-08b16211/opengraph-image
